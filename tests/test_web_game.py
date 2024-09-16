@@ -59,14 +59,43 @@ def test_click_random_game(web_game):
     expected_title = "Random Game"
     assert game_title == expected_title, f"Game title should be {expected_title} but was {game_title}"
 
-# def test_view_all_rules(web_game):
-#     web_game.entry_page.view_all_rules()  
-#     assert "all_rules.htm" in web_game.driver.current_url
+def test_all_rules_page(web_game):
+    """Test that the All Rules page is accessible and functions correctly."""
+    all_rules_page = web_game.view_all_rules_page()
+    assert all_rules_page.is_displayed(), "All Rules page should be displayed after clicking 'All Rules'"
+
+    # Check that the rule list is not empty
+    rule_list = all_rules_page.get_rule_list()
+    assert len(rule_list) > 0, "Rule list should not be empty"
+
+    # Verify you can select a rule and the rule details are displayed
+    all_rules_page.select_rule(1)
+    rule_title = all_rules_page.get_current_rule_title()
+    expected_title = "rule1"  # Adjust this value based on your application's expected title
+    assert rule_title == expected_title, f"Rule title should be '{expected_title}', but got '{rule_title}'"
+
+    # Test navigation buttons
+    previous_rule_title = rule_title
+    all_rules_page.show_next_rule()
+    next_rule_title = all_rules_page.get_current_rule_title()
+    assert next_rule_title != previous_rule_title, "Next rule should be different from the current rule"
+
+    # Return to the list of all rules
+    all_rules_page.back_to_rules()
+    assert all_rules_page.is_displayed(), "Should be back to the All Rules list"
+
 
 # def test_advance_move(web_game):
 #     web_game.entry_page.start_new_game()  
+
+#     assert web_game.game_page.is_displayed(), "Game page should be displayed after starting a new game"
+    
+#     assert web_game.game_page.is_gameboard_displayed(), "Gameboard should be displayed after starting a new game"
+    
 #     web_game.game_page.advance_move()  
-#     assert True
+
+#     assert web_game.game_page.get_move_counter() == 1, "Move counter should be 1 after making first move"
+
 
 # def test_retreat_move(web_game):
 #     web_game.entry_page.start_new_game()  
