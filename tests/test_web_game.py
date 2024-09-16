@@ -85,16 +85,16 @@ def test_all_rules_page(web_game):
     assert all_rules_page.is_displayed(), "Should be back to the All Rules list"
 
 
-# def test_advance_move(web_game):
-#     web_game.entry_page.start_new_game()  
+def test_advance_move(web_game):
+    web_game.entry_page.start_new_game()
 
-#     assert web_game.game_page.is_displayed(), "Game page should be displayed after starting a new game"
-    
-#     assert web_game.game_page.is_gameboard_displayed(), "Gameboard should be displayed after starting a new game"
-    
-#     web_game.game_page.advance_move()  
+    assert web_game.game_page.is_displayed(), "Game page should be displayed after starting a new game"
 
-#     assert web_game.game_page.get_move_counter() == 1, "Move counter should be 1 after making first move"
+    assert web_game.game_page.is_gameboard_displayed(), "Gameboard should be displayed after starting a new game"
+
+    web_game.game_page.advance_move()
+
+    assert web_game.game_page.get_move_counter() == 1, "Move counter should be 1 after making first move"
 
 
 # def test_retreat_move(web_game):

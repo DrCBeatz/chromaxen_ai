@@ -24,19 +24,31 @@ class GamePage:
         return game_title_element.text
     
     def get_move_counter(self) -> int:
-        move_counter = self.driver.find_element(By.ID, "update_counter").text
-        return int(move_counter)
+        """Retrieve the current move counter value."""
+        move_counter_element = WebDriverWait(self.driver, WAIT_TIME).until(
+            EC.presence_of_element_located((By.ID, "update_counter"))
+        )
+        move_counter_text = move_counter_element.text
+        # Handle potential empty text or non-integer values
+        move_counter = int(move_counter_text) if move_counter_text.isdigit() else 0
+        return move_counter
 
     def get_timer_text(self) -> str:
         timer_text = self.driver.find_element(By.ID, "timer").text
         return timer_text
     
     def advance_move(self):
+        """Clicks the Advance button and waits for the move counter to increment."""
         advance_button = WebDriverWait(self.driver, WAIT_TIME).until(
             EC.element_to_be_clickable((By.ID, "update_button"))
         )
+        current_move_count = self.get_move_counter()
         advance_button.click()
-    
+        # Wait until the move counter increments
+        WebDriverWait(self.driver, WAIT_TIME).until(
+            lambda driver: self.get_move_counter() == current_move_count + 1
+        )
+
     def retreat_move(self):
         retreat_button = WebDriverWait(self.driver, WAIT_TIME).until(
             EC.element_to_be_clickable((By.ID, "retreat_button"))
