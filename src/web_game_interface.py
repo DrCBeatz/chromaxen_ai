@@ -7,7 +7,7 @@ from game_interface import AbstractGameInterface
 
 
 class WebGameInterface(AbstractGameInterface):
-    def __init__(self, driver, url="http://dweeb.ninja/chromaxen/#game"):
+    def __init__(self, driver, url="http://dweeb.ninja/chromaxen/"):
         self.driver = driver
         self.driver.get(url)
         self._entry_page = EntryPage(driver)

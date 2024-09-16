@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from page_objects.all_rules_page import AllRulesPage
+from selenium.common.exceptions import NoSuchElementException
 
 WAIT_TIME = 10
 
@@ -13,7 +14,11 @@ class EntryPage:
         self.entry_page = driver.find_element(By.ID, "entry_page")
 
     def is_displayed(self) -> bool:
-        return self.entry_page.is_displayed()
+        try: 
+            entry_page_element = self.driver.find_element(By.ID, "entry_page")
+            return entry_page_element.is_displayed()
+        except NoSuchElementException:
+            return False
 
     def view_all_rules(self):
         """Navigate to the All Rules page and return its page object."""
@@ -56,8 +61,6 @@ class EntryPage:
         )
         return AllRulesPage(self.driver)
 
-
-    
     def continue_game(self):
         continue_button = WebDriverWait(self.driver, WAIT_TIME).until(
             EC.element_to_be_clickable((By.ID, "entry_continue_button"))
